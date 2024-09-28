@@ -1,12 +1,13 @@
-// src/models/order.js
+// models/order.js
 import mongoose from 'mongoose';
 
-const OrderSchema = new mongoose.Schema({
-  serviceName: String,
-  price: Number,
-  bookingDate: Date,
+const orderSchema = new mongoose.Schema({
+  serviceId: { type: String, required: true },
   userId: { type: String, required: true },
-  status: { type: String, default: 'pending' }, // Status field added here
+  bookingDate: { type: Date, required: true },
+  status: { type: String, default: 'pending' },
+  serviceName: { type: String, required: true }, // Ensure this is present
+  price: { type: Number, required: true }, // Ensure this is present
 }, { timestamps: true });
 
-export default mongoose.models.Order || mongoose.model('Order', OrderSchema);
+export default mongoose.models.Order || mongoose.model('Order', orderSchema);

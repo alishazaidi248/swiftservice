@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import styles from "./service-provider.module.css";
-import { storage } from '@/lib/firebase/firebase'; // Adjust import if necessary
+import { storage } from '@/lib/firebase/firebase'; 
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '@/lib/firebase/firebase';
@@ -13,14 +13,14 @@ export default function ServiceProviderPage() {
     badges: "",
     services: [{ name: "", description: "", price: "", imageUrl: "" }]
   });
-  const [userId, setUserId] = useState(null); // State to store user ID
+  const [userId, setUserId] = useState(null); 
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [selectedPage, setSelectedPage] = useState('profile');
 
   useEffect(() => {
-    // Fetch current user ID
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setUserId(user.uid);
@@ -103,7 +103,7 @@ export default function ServiceProviderPage() {
   
       const updatedProviderInfo = { ...providerInfo, services: updatedServices, userId };
   
-      console.log('Sending provider info:', updatedProviderInfo); // Verify structure
+      console.log('Sending provider info:', updatedProviderInfo); 
   
       const response = await fetch('/api/services', {
         method: 'POST',
@@ -120,7 +120,6 @@ export default function ServiceProviderPage() {
     }
   };
   
-
   const handleStatusChange = async (orderId, newStatus) => {
     try {
       const response = await fetch('/api/orders', {
@@ -142,113 +141,139 @@ export default function ServiceProviderPage() {
     }
   };
 
+  const renderPageContent = () => {
+    switch (selectedPage) {
+      case 'profile':
+        return (
+          <div className={styles.formBox}>
+            <h2 className={styles.boxHeader}>Provider Profile</h2>
+            <form onSubmit={sendData} className={styles.formContainer}>
+              <div className={styles.formGroup}>
+                <label className={styles.label}>Certifications:</label>
+                <input
+                  type="text"
+                  name="certifications"
+                  value={providerInfo.certifications}
+                  onChange={handleChange}
+                  className={styles.input}
+                />
+              </div>
+              <div className={styles.formGroup}>
+                <label className={styles.label}>Badges:</label>
+                <input
+                  type="text"
+                  name="badges"
+                  value={providerInfo.badges}
+                  onChange={handleChange}
+                  className={styles.input}
+                />
+              </div>
+              <div className={styles.servicesSection}>
+                <font color="4a148c"><h2 className={styles.servicesHeader}>Services</h2></font>
+                {providerInfo.services.map((service, index) => (
+                  <div key={index} className={styles.serviceItem}>
+                    <label className={styles.label}>Service Name:</label>
+                    <input
+                      type="text"
+                      name="name"
+                      value={service.name}
+                      onChange={(e) => handleServiceChange(index, e)}
+                      className={styles.input}
+                    />
+                    <label className={styles.label}>Description:</label>
+                    <input
+                      type="text"
+                      name="description"
+                      value={service.description}
+                      onChange={(e) => handleServiceChange(index, e)}
+                      className={styles.input}
+                    />
+                    <label className={styles.label}>Price:</label>
+                    <input
+                      type="text"
+                      name="price"
+                      value={service.price}
+                      onChange={(e) => handleServiceChange(index, e)}
+                      className={styles.input}
+                    />
+                    <label className={styles.label}>Image:</label>
+                    <input
+                      type="file"
+                      onChange={(e) => handleFileChange(index, e)}
+                      className={styles.input}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => removeService(index)}
+                      className={styles.removeButton}
+                    >
+                      Remove Service
+                    </button>
+                  </div>
+                ))}
+                <button
+                  type="button"
+                  onClick={addService}
+                  className={styles.addButton}
+                >
+                  Add Service
+                </button>
+              </div>
+              <button type="submit" className={styles.button}>Submit</button>
+            </form>
+          </div>
+        );
+      case 'orders':
+        return (
+          <div className={styles.ordersSection}>
+            <font color="4a148c"><h2 className={styles.ordersHeader}>Manage Orders</h2></font>
+            {loading ? (
+              <div>Loading...</div>
+            ) : error ? (
+              <div>Error: {error}</div>
+            ) : orders.length === 0 ? (
+              <div>No orders found.</div>
+            ) : (
+              <ul className={styles.ordersList}>
+                {orders.map((order) => (
+                  <li key={order._id} className={styles.orderItem}>
+                    <p><strong>Service Name:</strong> {order.serviceName}</p>
+                    <p><strong>Status:</strong> {order.status}</p>
+                    <select
+                      value={order.status}
+                      onChange={(e) => handleStatusChange(order._id, e.target.value)}
+                      className={styles.statusSelect}
+                    >
+                      <option value="pending">Pending</option>
+                      <option value="started">Started</option>
+                      <option value="delayed">Delayed</option>
+                      <option value="completed">Completed</option>
+                    </select>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <main className={styles.main}>
-      <div className={styles.header}>
+      <header className={styles.header}>
         <h1>Service Provider Profile</h1>
-      </div>
-      <form onSubmit={sendData} className={styles.formContainer}>
-        <div className={styles.formGroup}>
-          <label className={styles.label}>Certifications:</label>
-          <input
-            type="text"
-            name="certifications"
-            value={providerInfo.certifications}
-            onChange={handleChange}
-            className={styles.input}
-          />
+      </header>
+      <div className={styles.container}>
+        <aside className={styles.sidebar}>
+          <button onClick={() => setSelectedPage('profile')} className={styles.navButton}>Profile</button>
+          <div className={styles.separator}></div>
+          <button onClick={() => setSelectedPage('orders')} className={styles.navButton}>Orders</button>
+        </aside>
+        <div className={styles.content}>
+          {renderPageContent()}
         </div>
-        <div className={styles.formGroup}>
-          <label className={styles.label}>Badges:</label>
-          <input
-            type="text"
-            name="badges"
-            value={providerInfo.badges}
-            onChange={handleChange}
-            className={styles.input}
-          />
-        </div>
-        <div className={styles.servicesSection}>
-          <h2 className={styles.servicesHeader}>Services</h2>
-          {providerInfo.services.map((service, index) => (
-            <div key={index} className={styles.serviceItem}>
-              <label className={styles.label}>Service Name:</label>
-              <input
-                type="text"
-                name="name"
-                value={service.name}
-                onChange={(e) => handleServiceChange(index, e)}
-                className={styles.input}
-              />
-              <label className={styles.label}>Description:</label>
-              <input
-                type="text"
-                name="description"
-                value={service.description}
-                onChange={(e) => handleServiceChange(index, e)}
-                className={styles.input}
-              />
-              <label className={styles.label}>Price:</label>
-              <input
-                type="text"
-                name="price"
-                value={service.price}
-                onChange={(e) => handleServiceChange(index, e)}
-                className={styles.input}
-              />
-              <label className={styles.label}>Image:</label>
-              <input
-                type="file"
-                onChange={(e) => handleFileChange(index, e)}
-                className={styles.input}
-              />
-              <button
-                type="button"
-                onClick={() => removeService(index)}
-                className={styles.removeButton}
-              >
-                Remove Service
-              </button>
-            </div>
-          ))}
-          <button
-            type="button"
-            onClick={addService}
-            className={styles.addButton}
-          >
-            Add Service
-          </button>
-        </div>
-        <button type="submit" className={styles.button}>Submit</button>
-      </form>
-      <div className={styles.ordersSection}>
-        <h2 className={styles.ordersHeader}>Manage Orders</h2>
-        {loading ? (
-          <div>Loading...</div>
-        ) : error ? (
-          <div>Error: {error}</div>
-        ) : orders.length === 0 ? (
-          <div>No orders found.</div>
-        ) : (
-          <ul className={styles.ordersList}>
-            {orders.map((order) => (
-              <li key={order._id} className={styles.orderItem}>
-                <p><strong>Service Name:</strong> {order.serviceName}</p>
-                <p><strong>Status:</strong> {order.status}</p>
-                <select
-                  value={order.status}
-                  onChange={(e) => handleStatusChange(order._id, e.target.value)}
-                  className={styles.statusSelect}
-                >
-                  <option value="pending">Pending</option>
-                  <option value="started">Started</option>
-                  <option value="delayed">Delayed</option>
-                  <option value="completed">Completed</option>
-                </select>
-              </li>
-            ))}
-          </ul>
-        )}
       </div>
     </main>
   );

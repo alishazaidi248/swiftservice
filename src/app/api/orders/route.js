@@ -1,7 +1,7 @@
 import dbConnect from '@/lib/dbConnect';
 import Order from '@/models/order';
+import Service from '@/models/service'; 
 
-// GET method to fetch all orders
 export async function GET() {
   await dbConnect();
   try {
@@ -13,7 +13,8 @@ export async function GET() {
   }
 }
 
-// POST method to create a new order
+
+
 export async function POST(request) {
   await dbConnect();
   try {
@@ -22,7 +23,22 @@ export async function POST(request) {
       return new Response(JSON.stringify({ message: 'Missing required fields' }), { status: 400 });
     }
 
-    const newOrder = new Order({ serviceId, userId, bookingDate, status: 'pending' });
+    // Fetch the service details
+    const service = await Service.findById(serviceId); // Assuming Service model exists
+    if (!service) {
+      return new Response(JSON.stringify({ message: 'Service not found' }), { status: 404 });
+    }
+
+    // Create a new order with service details
+    const newOrder = new Order({
+      serviceId,
+      userId,
+      bookingDate,
+      status: 'pending',
+      serviceName: service.name, // Add service name
+      price: service.price, // Add price
+    });
+
     await newOrder.save();
     return new Response(JSON.stringify({ message: 'Order created successfully' }), { status: 201 });
   } catch (error) {
@@ -30,6 +46,11 @@ export async function POST(request) {
     return new Response(JSON.stringify({ message: 'Failed to create order' }), { status: 500 });
   }
 }
+
+
+
+
+
 
 // PATCH method to update an order status
 export async function PATCH(request) {

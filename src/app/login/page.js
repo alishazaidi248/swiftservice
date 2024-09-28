@@ -26,13 +26,17 @@ export default function LoginPage() {
       }
       
       const data = await response.json();
-      console.log(data);
       
       const userData = data.var_user;
+      
       if (userData.role === 'customer') {
         router.push('/customer-home');
       } else if (userData.role === 'serviceProvider') {
         router.push('/service-provider'); 
+      } else if (userData.role === 'admin') { 
+        router.push('/admin/reports');
+      } else {
+        setErrorMessage("Invalid role, please contact support.");
       }
       
     } catch (error) {

@@ -3,171 +3,150 @@
 .main {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-start; /* Changed to flex-start to ensure content is aligned at the top */
   min-height: 100vh;
-  background: linear-gradient(to bottom, #e0f7fa, #4a148c);
-  padding: 20px;
-  box-sizing: border-box;
-  overflow-y: auto; /* Added to ensure scrolling if content overflows */
 }
 
 .header {
-  font-size: 2.5rem;
+  background-color: #4a148c;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  flex: 1;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #f3f3f3;
+  padding: 1rem;
+  border-right: 1px solid #ddd;
+}
+
+.navButton {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  background-color: #4a148c;
+  color: white;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  margin-bottom: 0.5rem;
+}
+
+.navButton:hover {
+  background-color: #6a1b9a;
+}
+
+.separator {
+  margin: 1rem 0;
+  border-top: 1px solid #ddd;
+}
+
+.content {
+  flex: 1;
+  padding: 1rem;
+}
+
+.formBox {
+  padding: 2rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.boxHeader {
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
   color: #4a148c;
-  margin-bottom: 20px; /* Reduced margin to save space */
 }
 
 .formContainer {
-  width: 100%;
   max-width: 800px;
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px; /* Added bottom margin for spacing */
+  margin: auto;
 }
 
-.formContainer div {
-  margin-bottom: 15px; /* Reduced margin to fit more content */
+.formGroup {
+  margin-bottom: 1rem;
 }
 
 .label {
   display: block;
-  font-size: 1.1rem; /* Slightly smaller font size for labels */
-  color: #333;
-  margin-bottom: 6px; /* Reduced margin to save space */
+  margin-bottom: 0.5rem;
+  color:#4a148c;
 }
 
 .input {
   width: 100%;
-  padding: 8px; /* Slightly smaller padding for inputs */
-  font-size: 0.9rem; /* Reduced font size to fit better */
-  border: 1px solid #ccc;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
   border-radius: 4px;
-  color: #ffffff; /* Set input text color */
-  background-color: #290a50;
-  
 }
 
-.button {
-  background-color: #15f48c;
-  color: black;
-  padding: 8px 16px; /* Slightly smaller padding for buttons */
-  border: none;
-  border-radius: 4px;
-  font-size: 0.9rem; /* Reduced font size for buttons */
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-.button:hover {
-  background-color: #3c6858;
+.servicesSection {
+  margin-top: 2rem;
 }
 
-.addButton {
-  background-color: #15f48c;
-  color: black;
-  padding: 8px 16px; /* Slightly smaller padding for buttons */
-  border: none;
-  border-radius: 4px;
-  font-size: 0.9rem; /* Reduced font size for buttons */
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+.servicesHeader {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
 }
 
-.addButton:hover {
-  background-color: #12c885;
+.serviceItem {
+  margin-bottom: 1.5rem;
 }
-
-
 
 .removeButton {
-  margin-top: 1rem;
-  background-color: #ff4c4c;
-  
-  color: black;
-  padding: 8px 16px; /* Slightly smaller padding for buttons */
+  background-color: #e53935;
+  color: white;
   border: none;
-  border-radius: 4px;
-  font-size: 0.9rem; /* Reduced font size for buttons */
+  padding: 0.5rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
 .removeButton:hover {
-  background-color: #e63c3c;
+  background-color: #c62828;
 }
 
-.serviceList {
-  display: flex;
-  flex-direction: column; /* Stack service cards vertically */
-  gap: 20px;
-  margin-top: 20px; /* Added margin to separate from form */
-}
-
-.serviceCard {
-  background-color: #ffffff;
-  padding: 15px; /* Reduced padding for service cards */
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px; /* Limited max-width to fit better */
-  margin: auto; /* Centered service cards */
-  text-align: left;
-  font-size: 0.9rem; /* Reduced font size */
-}
-
-.serviceCardTitle {
-  margin: 0;
-  font-size: 1.3rem; /* Adjusted font size */
-  color: #4a148c;
-}
-
-.serviceCardDescription {
-  margin: 10px 0;
-}
-
-.serviceCardPrice {
-  font-weight: bold;
-  color: #15f48c;
-}
-
-.ordersList {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjusted to create a grid layout */
-  gap: 20px; /* Added gap between grid items */
-  list-style-type: none;
-  padding: 0;
-  width: 100%;
-  max-width: 800px;
-  margin-top: 20px; /* Added margin to separate from form */
-}
-
-.orderItem {
-  background-color: #00dea7;
-  padding: 15px; /* Reduced padding */
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  font-size: 0.9rem; /* Reduced font size */
-}
-
-.statusSelect {
-  width: 100%;
-  padding: 8px; /* Reduced padding */
-  font-size: 0.9rem; /* Reduced font size */
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background-color: #290a50;
-  margin-top: 10px;
+.addButton {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 0.5rem;
   cursor: pointer;
 }
 
-/* Added styles for black text */
-.serviceCardTitle,
-.orderItem p {
-  color: black;
+.addButton:hover {
+  background-color: #388e3c;
 }
 
-.orderItem p.completed {
-  color: black;
+.ordersSection {
+  margin-top: 2rem;
+}
+
+.ordersHeader {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.ordersList {
+  list-style: none;
+  padding: 0;
+}
+
+.orderItem {
+  border: 1px solid #4a148c;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  color: #4a148c;
+}
+
+.statusSelect {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid #ddd;
 }

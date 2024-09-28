@@ -1,10 +1,10 @@
 'use client';
+
 import { useState, useEffect } from 'react';
-import styles from "./home.module.css";
+import styles from './home.module.css';
 import { signOut } from 'firebase/auth';
 import { auth } from '@/lib/firebase/firebase';
 import { useRouter } from 'next/navigation';
-import '@/app/styles/globals.css'; // Corrected path
 
 export default function CustomerHomePage() {
   const [services, setServices] = useState([]);
@@ -18,13 +18,13 @@ export default function CustomerHomePage() {
 
   const router = useRouter();
 
+  // Fetch services
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await fetch('/api/services');
+        const response = await fetch('/api/services'); 
         if (!response.ok) throw new Error('Failed to fetch services');
         const data = await response.json();
-        console.log(data); // Log the fetched data to verify structure
         const servicesData = data.services.flatMap(item => item.services);
         setServices(servicesData);
       } catch (error) {
@@ -55,23 +55,26 @@ export default function CustomerHomePage() {
     };
     fetchProfilePicture();
   }, []);
-  
+
   const handleProfilePictureUpload = async (event) => {
     const file = event.target.files[0];
+
     if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setProfilePicture(imageUrl); 
+
       const formData = new FormData();
       formData.append('profilePicture', file);
-      formData.append('user', auth.currentUser.uid);
-  
+
       try {
         const response = await fetch('/api/upload-profile-picture', {
           method: 'POST',
           body: formData,
         });
-  
+
         if (response.ok) {
           const data = await response.json();
-          setProfilePicture(data.profilePictureUrl); // Update profile picture URL
+          setProfilePicture(data.profilePictureUrl); 
         } else {
           console.error('Failed to upload profile picture');
         }
@@ -80,6 +83,7 @@ export default function CustomerHomePage() {
       }
     }
   };
+
   
 
   const handleServiceClick = (service) => {
@@ -90,7 +94,6 @@ export default function CustomerHomePage() {
   const handleBooking = async () => {
     try {
       const user = auth.currentUser;
-
       if (!user) {
         alert('You must be logged in to book a service');
         return;
@@ -127,18 +130,19 @@ export default function CustomerHomePage() {
           <div>
             <h2>Profile/Account</h2>
             {profilePicture ? (
-              <img src={profilePicture} alt="Profile Picture" className={styles.profilePicture} />
-            ) : (
-              <p>No profile picture</p>
-            )}
-            <input type="file" accept="image/*" onChange={handleProfilePictureUpload} />
+                  <img src={profilePicture} alt="Profile Picture" className={styles.profilePicture} />
+                ) : (
+                  <p>No profile picture</p>
+                )}
+
+                <input type="file" accept="image/*" onChange={handleProfilePictureUpload} />
+
           </div>
         );
         
       default:
         return (
           <div className={styles.services}>
-            <h2>Available Services</h2>
             {loading ? (
               <div className={styles.loader}>Loading...</div>
             ) : error ? (
@@ -151,7 +155,7 @@ export default function CustomerHomePage() {
                     <div key={index} className={styles.serviceCard} onClick={() => handleServiceClick(service)}>
                       <h3>{service.name}</h3>
                       <p>{service.description}</p>
-                      <p><strong>Price:</strong> {"₹"+(service.price || "N/A")}</p>
+                      <p><strong>Price:</strong> ₹{service.price || "N/A"}</p>
                       {service.imageUrl ? (
                         <img src={service.imageUrl} alt={service.name} className={styles.serviceImage} />
                       ) : (
@@ -165,7 +169,7 @@ export default function CustomerHomePage() {
         );
     }
   };
-  
+
   return (
     <main className={styles.main}>
       <header className={styles.header}>
@@ -197,7 +201,7 @@ export default function CustomerHomePage() {
                 <span className={styles.close} onClick={() => setSelectedService(null)}>×</span>
                 <h2>{selectedService.name}</h2>
                 <p>{selectedService.description}</p>
-                <p><strong>Price: {selectedService.price}</strong></p>
+                <p><strong>Price: ₹{selectedService.price}</strong></p>
                 {selectedService.imageUrl ? (
                   <img src={selectedService.imageUrl} alt={selectedService.name} className={styles.modalImage} />
                 ) : (
@@ -209,7 +213,7 @@ export default function CustomerHomePage() {
                     type="date"
                     value={bookingDate}
                     onChange={(e) => setBookingDate(e.target.value)}
-                    min={new Date().toISOString().split('T')[0]}
+                    min={new Date().toISOString().split('T')[0]} 
                   />
                 </label>
                 <button onClick={handleBooking}>Book Now</button>
@@ -234,7 +238,7 @@ const OrdersPage = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await fetch('/api/orders');
+        const response = await fetch('/api/orders'); // Adjusted for App Router
         if (!response.ok) throw new Error('Failed to fetch orders');
         const data = await response.json();
         setOrders(data.orders);
@@ -261,7 +265,7 @@ const OrdersPage = () => {
           {orders.map((order, index) => (
             <li key={index} className={styles.orderItem}>
               <p><strong>Service Name:</strong> {order.serviceName}</p>
-              <p><strong>Price:</strong> {"₹"+order.price}</p>
+              <p><strong>Price:</strong> ₹{order.price}</p>
               <p><strong>Booking Date:</strong> {new Date(order.bookingDate).toLocaleDateString()}</p>
               <p><strong>Status:</strong> {order.status}</p>
             </li>
@@ -272,9 +276,10 @@ const OrdersPage = () => {
   );
 };
 
+
 const SettingsPage = () => (
   <div>
     <h2>Settings</h2>
-    {/* Settings content */}
+    {}
   </div>
 );

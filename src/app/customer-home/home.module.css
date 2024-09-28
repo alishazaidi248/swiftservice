@@ -2,21 +2,50 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background: linear-gradient(to bottom, #e0f7fa, #4a148c);
+  background: linear-gradient(to bottom, #e0f7fa, #a878e4);
   color: #fff;
+  transition: background-color 0.3s, color 0.3s;
+
+}
+.light {
+  background-color: #ffffff;
+  color: #000000;
 }
 
+.dark {
+  background-color: #333333;
+  color: #ffffff;
+}
 .container {
   display: flex;
   justify-content: space-between;
   min-height: 100vh;
 }
+.header,
+.container,
+.footer {
+  transition: background-color 0.3s, color 0.3s;
+}
+.header.light,
+.container.light,
+.footer.light {
+  background-color: #f0f0f0;
+  color: #000000;
+}
+
+.header.dark,
+.container.dark,
+.footer.dark {
+  background-color: #444444;
+  color: #ffffff;
+}
+
 
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #ffffff;
+  background-color: #4a148c;
   padding: 15px 20px;
 }
 
@@ -52,7 +81,7 @@
 }
 
 .sidebar button {
-  background-color: #15f48c;
+  background-color: #4a148c;
   border: none;
   padding: 20px;
   border-radius: 4px;
@@ -60,6 +89,7 @@
   cursor: pointer;
   font-size: 1rem;
   transition: background-color 0.3s ease;
+  color: #ffffff;
 }
 
 .sidebar button:hover {
@@ -69,11 +99,11 @@
 .separator {
   height: 1px;
   background-color: #ccc;
-  margin: 40px 0; /* Space between the button and the separator */
+  margin: 40px 0;
 }
 
 .separator + .separator {
-  display: none; /* Hide the separator if it's followed by another separator */
+  display: none; 
 }
 
 
@@ -141,7 +171,6 @@
   font-weight: bold;
   cursor: pointer;
 }
-/* home.module.css */
 
 .serviceImage {
   max-width: 100%;
@@ -222,4 +251,11 @@
 
 .orderItem p {
   margin: 5px 0;
+}
+.profilePicture {
+  width: 150px; 
+  height: 150px; 
+  object-fit: cover; 
+  border-radius: 50%;
+  border: 2px solid #ccc; 
 }

@@ -1,0 +1,141 @@
+/* Admin Panel Container */
+.adminPanel {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px;
+  background-color: #f3f4f6; /* Lighter and modern background color */
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+  transition: background-color 0.3s ease;
+}
+
+/* Title Styling */
+.title {
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2c3e50; /* Darker and more modern color */
+  font-weight: 600;
+}
+
+/* Dropdown Container */
+.dropdownContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.dropdownLabel {
+  font-size: 1.2rem;
+  margin-right: 15px;
+  color: #555;
+}
+
+.dropdown select {
+  padding: 10px;
+  font-size: 1.1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  transition: border-color 0.3s ease;
+}
+
+.dropdown select:hover {
+  border-color: #3498db; /* Modern blue hover effect */
+}
+
+/* Cards Container for Reports */
+.cardsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  background-color: transparent; /* Allow panel background to flow */
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* Card Styling */
+.card {
+  padding: 25px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* Card Title Styling */
+.card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 15px;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+/* Card Text Styling */
+.card p {
+  font-size: 1.1rem;
+  color: #7f8c8d;
+  line-height: 1.6;
+}
+
+/* Total Card Styling */
+.totalCard {
+  grid-column: span 2; /* Ensure it spans two columns */
+  padding: 20px;
+  background-color: #3498db; /* A modern blue for emphasis */
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.3rem;
+  border-radius: 10px;
+}
+
+/* Loading Indicator */
+.loading {
+  text-align: center;
+  font-size: 1.8rem;
+  color: #2c3e50;
+  margin-top: 50px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+/* Pulse animation for loading */
+@keyframes pulse {
+  0% {
+      opacity: 0.7;
+  }
+  50% {
+      opacity: 1;
+  }
+  100% {
+      opacity: 0.7;
+  }
+}
+
+/* Chart container for improved spacing */
+.chartContainer {
+  margin: 20px 0;
+}
+
+/* Mobile Optimization */
+@media (max-width: 600px) {
+  .adminPanel {
+      padding: 15px;
+  }
+  .cardsContainer {
+      grid-template-columns: 1fr; /* Full width cards for mobile */
+  }
+  .title {
+      font-size: 2rem;
+  }
+  .dropdown select {
+      width: 100%;
+  }
+}
